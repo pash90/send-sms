@@ -1,0 +1,48 @@
+{
+  "name": "aigent",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "history": "^4.7.2",
+    "node-sass-chokidar": "^1.1.2",
+    "npm-run-all": "^4.1.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "react-scripts-ts": "2.14.0",
+    "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-form": "^7.3.0"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "none",
+    "jsxBracketSameLine": true,
+    "useTabs": true,
+    "printWidth": 50
+  },
+  "scripts": {
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "start-js": "react-scripts-ts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build-js": "react-scripts-ts build",
+    "build": "npm-run-all build-css build-js",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  },
+  "devDependencies": {
+    "@types/jest": "^22.2.0",
+    "@types/node": "^9.4.7",
+    "@types/react": "^16.0.40",
+    "@types/react-dom": "^16.0.4",
+    "@types/react-redux": "^5.0.15",
+    "@types/react-router-dom": "^4.2.5",
+    "@types/react-router-redux": "^5.0.12",
+    "@types/redux-form": "^7.2.2",
+    "prettier": "^1.11.1",
+    "typescript": "^2.7.2"
+  }
+}
