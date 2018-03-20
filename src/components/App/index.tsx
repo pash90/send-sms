@@ -6,6 +6,9 @@ import { ClipLoader } from 'react-spinners'
 /** Actions */
 import { shortenURLs, sendSMS } from '../../actions';
 
+/** Assets */
+import logo from '../../assets/logo.png';
+
 /** Interfaces */
 interface FormValues {
   phone: string,
@@ -94,6 +97,7 @@ class App extends React.Component<AppDispatchProps> {
   render() {
     return (
       <div className="App">
+        <img src={logo} width="250" style={{ marginBottom: '20px' }} />
         <SMSForm onSubmit={this.submitForm} />
       </div>
     );
