@@ -30,3 +30,5 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 This project uses Firebase Functions to get around the CORS for the BurstSMS API. Although not secure(_since a user can see the API tokens_), it satisfies the requirement of configurable tokens.
 
 All the tokens required are set in the `.env` file and they are ones used for data. No token/parameter is hard coded in this project.
+
+FYI : I could've added `.env` file to `.gitignore` but BurstSMS credentials are temporary and the Bitly Access Token is a generic token(and free)
