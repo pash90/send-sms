@@ -21,3 +21,9 @@ declare module 'normalize-url' {
 declare module 'string-url-extractor' {
   export default function urlExtractor(text: string): Array<string>;
 }
+
+/** To use PNGs as normal modules, ES6 style */
+declare module '*.png' {
+  const content: any;
+  export default content;
+}
