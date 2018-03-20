@@ -1,15 +1,25 @@
 /** Libraries */
 import * as React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, startSubmit, stopSubmit, reset } from 'redux-form';
+import { ClipLoader } from 'react-spinners'
+
+/** Actions */
+import { shortenURLs, sendSMS } from '../../actions';
 
 /** Interfaces */
 interface FormValues {
-  phone?: string,
-  message?: string
+  phone: string,
+  message: string
+}
+
+interface AppDispatchProps {
+  startSubmission: () => void,
+  stopSubmission: () => void
 }
 
 /** Styles */
 import './index.css';
+import { Dispatch, connect } from 'react-redux';
 
 /** Form */
 const renderField = (field: any) => {
@@ -50,7 +60,7 @@ const SMSForm = reduxForm<FormValues>({
     return errors;
   }
 })(props => {
-  const { handleSubmit, valid } = props;
+  const { handleSubmit, valid, submitting } = props;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -58,7 +68,10 @@ const SMSForm = reduxForm<FormValues>({
       <Field name="message" component={renderField} type="textarea" placeholder="Message" />
 
       {valid ? (
-        <button type="submit" className="submit-button">Send</button>
+        <button type="submit" className="submit-button">
+          <ClipLoader loading={submitting} color="#fff" size={16} />
+          {submitting ? 'Sending ...' : 'Send'}
+        </button>
       ) : (
           <button disabled className="disabled-button">Send</button>
         )}
@@ -67,14 +80,34 @@ const SMSForm = reduxForm<FormValues>({
   )
 })
 
-class App extends React.Component {
+class App extends React.Component<AppDispatchProps> {
+  submitForm = (values: FormValues) => {
+    const { startSubmission, stopSubmission } = this.props
+
+    // Start subsmission
+    startSubmission();
+
+    // Replace links in the original message
+    shortenURLs(values.message, message => sendSMS(values.phone as string, message, stopSubmission));
+  }
+
   render() {
     return (
       <div className="App">
-        <SMSForm onSubmit={values => console.log(values)} />
+        <SMSForm onSubmit={this.submitForm} />
       </div>
     );
   }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch: Dispatch<any>): AppDispatchProps => {
+  return {
+    startSubmission: () => dispatch(startSubmit('sms')),
+    stopSubmission: () => {
+      dispatch(stopSubmit('sms'))
+      dispatch(reset('sms'))
+    }
+  }
+}
+
+export default connect<{}, AppDispatchProps, {}>(null, mapDispatchToProps)(App);
